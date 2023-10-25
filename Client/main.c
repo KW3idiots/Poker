@@ -1,11 +1,30 @@
-﻿// Client.c : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
+﻿// main.c : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+
+#include "graphic.h"
+#include "gameplay.h"
 
 int main()
 {
-    printf("Hello World!\n");
+    while (1)
+    {
+        switch (get_menu_playmode())
+        {
+        case SINGLE:
+            play_single(get_menu_capital());
+            break;
+
+        case ONLINE:
+            break;
+
+        case EXIT:
+            exit(0);
+            break;
+        }
+    }
     return 0;
 }
 
