@@ -5,7 +5,10 @@
 
 int main()
 {
-    printf("Hello World!\n");
+    cursor();
+    get_menu_playmode();
+    get_menu_capital();
+    set_table();
     return 0;
 }
 
