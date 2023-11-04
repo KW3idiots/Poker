@@ -12,7 +12,7 @@ int main()
     set_card(0, 1, 0, 0);
     set_card(1, 4, 1, 0);
     set_card(2, 2, 2, 0);
-    set_card(3, 9, 3, 0);
+    set_card(3, 10, 3, 0);
     get_menu_bet();
     return 0;
 }

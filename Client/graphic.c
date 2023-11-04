@@ -411,6 +411,9 @@ void set_card(CARD_SHAPE shape, int num, int player, int card_order) {
 				}
 			}
 		}
+		gotoxy(x + 5, y);
+		ColorSet(black, black);
+		printf(" ");
 	}
 	ColorSet(black, white);
 }
