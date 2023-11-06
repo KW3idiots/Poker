@@ -9,7 +9,7 @@ int main()
     get_menu_playmode();
     get_menu_capital();
     set_table();
-    set_card(0, 1, 0, 0);
+    set_card(4, 1, 0, 0);
     set_card(1, 4, 1, 0);
     set_card(2, 2, 2, 0);
     set_card(3, 10, 3, 0);

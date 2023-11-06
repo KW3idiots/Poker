@@ -37,7 +37,8 @@ typedef enum ColorKinds {
 	red,
 	pink,
 	Orange,
-	white
+	white, 
+	gray
 };
 void Money_Square() {
 	ColorSet(white, white);
@@ -335,52 +336,41 @@ void set_card(CARD_SHAPE shape, int num, int player, int card_order) {
 		{'#', '#', '#', 'B', '#'},
 		{'#', '#', '#', 'N', '#'},
 	};
-	for (int i = 0; i < 5; i++)
-	{
-		int x = PLAYER_TABLE[player][0] + 6*card_order;
-		int y = PLAYER_TABLE[player][1] + i;
-		gotoxy(x, y);
-		for (int j = 0; j < 5; j++)
-		{
-			if (CARD[i][j] == '#')
-			{
-				ColorSet(white, white);
-				printf("%c", CARD[i][j]);
-			}
-			else if (CARD[i][j] == 'N')
-			{
-				ColorSet(white, black);
-				printf("%d", num);
-			}
-			else if (CARD[i][j] == 'B' && num>10)
-			{
-				switch (shape) {
-				case DIAMOND:
-					ColorSet(white, red);
-					printf("¡ß");
-					break;
-				case SPADE:
-					ColorSet(white, black);
-					printf("¢¼");
-					break;
-				case HEART:
-					ColorSet(white, red);
-					printf("¢¾");
-					break;
-				case CLUB:
-					ColorSet(white, black);
-					printf("¢À");
-					break;
-				}
-			}
-			else if (CARD[i][j] == 'B' && num < 11) {
-				ColorSet(white, white);
+	if (shape == UNKNOWN) {
+		for (int i = 0; i < 5; i++) {
+			int x = PLAYER_TABLE[player][0] + 6 * card_order;
+			int y = PLAYER_TABLE[player][1] + i;
+			gotoxy(x, y);
+			for (int j = 0; j < 5; j++) {
+				ColorSet(gray, gray);
 				printf(" ");
 			}
-			else if (CARD[i][j] == 'A')
+			gotoxy(x + 5, y);
+			ColorSet(black, black);
+			printf(" ");
+		}
+
+	}
+	else {
+		for (int i = 0; i < 5; i++)
+		{
+			int x = PLAYER_TABLE[player][0] + 6 * card_order;
+			int y = PLAYER_TABLE[player][1] + i;
+			gotoxy(x, y);
+			for (int j = 0; j < 5; j++)
 			{
-				ColorSet(white, black);
-				if (num < 11) {
+				if (CARD[i][j] == '#')
+				{
+					ColorSet(white, white);
+					printf("%c", CARD[i][j]);
+				}
+				else if (CARD[i][j] == 'N')
+				{
+					ColorSet(white, black);
+					printf("%d", num);
+				}
+				else if (CARD[i][j] == 'B' && num > 10)
+				{
 					switch (shape) {
 					case DIAMOND:
 						ColorSet(white, red);
@@ -400,20 +390,48 @@ void set_card(CARD_SHAPE shape, int num, int player, int card_order) {
 						break;
 					}
 				}
-				else if (num == 11) {
-					printf("Å·");
+				else if (CARD[i][j] == 'B' && num < 11) {
+					ColorSet(white, white);
+					printf(" ");
 				}
-				else if (num == 12) {
-					printf("Äý");
-				}
-				else if (num == 13) {
-					printf("Àè");
+				else if (CARD[i][j] == 'A')
+				{
+					ColorSet(white, black);
+					if (num < 11) {
+						switch (shape) {
+						case DIAMOND:
+							ColorSet(white, red);
+							printf("¡ß");
+							break;
+						case SPADE:
+							ColorSet(white, black);
+							printf("¢¼");
+							break;
+						case HEART:
+							ColorSet(white, red);
+							printf("¢¾");
+							break;
+						case CLUB:
+							ColorSet(white, black);
+							printf("¢À");
+							break;
+						}
+					}
+					else if (num == 11) {
+						printf("Å·");
+					}
+					else if (num == 12) {
+						printf("Äý");
+					}
+					else if (num == 13) {
+						printf("Àè");
+					}
 				}
 			}
+			gotoxy(x + 5, y);
+			ColorSet(black, black);
+			printf(" ");
 		}
-		gotoxy(x + 5, y);
-		ColorSet(black, black);
-		printf(" ");
 	}
 	ColorSet(black, white);
 }
