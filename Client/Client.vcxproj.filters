@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.c">
+    <ClCompile Include="gameplay.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="deckcheck.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
