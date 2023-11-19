@@ -8,7 +8,7 @@ typedef enum {
 }CARD_SHAPE;
 typedef enum {
 	CALL, RAISE, FOLD, ALL_IN
-}BET;
+}BET;//0,1,2,3
 void cursor();
 PLAYMODE get_menu_playmode();
 int get_menu_capital();

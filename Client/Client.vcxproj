@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="gameplay.c" />
     <ClCompile Include="graphic.c" />
+    <ClCompile Include="tset.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameplay.h" />
