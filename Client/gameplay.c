@@ -7,12 +7,13 @@
 #include <time.h>
 #include <conio.h>
 #include <process.h>
+
 #include "graphic.h"
+#include "gameplay.h"
 
 int randomcard();
 int randomshape();
 int checkcard(int deck1, int deck2, int deck3, int deck4, int deck5, int player1, int player2);
-void play_single(int get_menu_capital);
 
 int randomcard()
 {

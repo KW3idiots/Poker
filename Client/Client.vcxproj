@@ -127,11 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="graphic.c" />
-    <ClCompile Include="tset.c" />
+    <ClCompile Include="ai.c" />
+    <ClCompile Include="gameplay.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gameplay.h" />
     <ClInclude Include="graphic.h" />
+    <ClCompile Include="graphic.c" />
+    <ClCompile Include="main.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

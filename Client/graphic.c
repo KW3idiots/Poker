@@ -5,9 +5,9 @@
 #include <time.h>
 #include <malloc.h>
 #include <windows.h>
-#include <mmsystem.h>		//ï¿½ß°ï¿½ï¿½ï¿½
-#pragma comment(lib, "winmm.lib")		//ï¿½ß°ï¿½ï¿½ï¿½
-#define G 200		//ï¿½ß°ï¿½ï¿½ï¿½
+#include <mmsystem.h>		//Ãß°¡µÊ
+#pragma comment(lib, "winmm.lib")		//Ãß°¡µÊ
+#define G 200		//Ãß°¡µÊ
 
 void cursor()
 {
@@ -66,7 +66,7 @@ void Money_Square() {
 int get_menu_capital() {
 	int x = 10;
 	gotoxy(45, 2);
-	printf("ï¿½Ê±ï¿½ ï¿½Úºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
+	printf("ÃÊ±â ÀÚº»À» ¼±ÅÃÇÏ¼¼¿ä.");
 	gotoxy(7, 6);
 	printf("1000");
 	gotoxy(8, 7);
@@ -165,7 +165,7 @@ int get_menu_capital() {
 	gotoxy(0, 4);
 	Money_Square();
 	gotoxy(x, 24);
-	printf("> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+	printf("> °ÔÀÓ ½ÃÀÛ");
 	int key;
 	int End = 1;
 	while (1) {
@@ -181,8 +181,8 @@ int get_menu_capital() {
 					printf("          ");
 					x = x - 40;
 					gotoxy(x, 24);
-					printf("> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
-					Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+					printf("> °ÔÀÓ ½ÃÀÛ");
+					Beep(G, 100);		//Ãß°¡µÊ
 					Sleep(100);
 				}
 				break;
@@ -193,8 +193,8 @@ int get_menu_capital() {
 					printf("          ");
 					x = x + 40;
 					gotoxy(x, 24);
-					printf("> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
-					Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+					printf("> °ÔÀÓ ½ÃÀÛ");
+					Beep(G, 100);		//Ãß°¡µÊ
 					Sleep(100);
 				}
 				break;
@@ -206,17 +206,17 @@ int get_menu_capital() {
 		case 13:
 			system("cls");
 			if (x == 10) {
-				Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+				Beep(G, 100);		//Ãß°¡µÊ
 				Sleep(100);
 				return 1000;
 			}
 			else if (x == 50) {
-				Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+				Beep(G, 100);		//Ãß°¡µÊ
 				Sleep(100);
 				return 10000;
 			}
 			else if (x == 90) {
-				Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+				Beep(G, 100);		//Ãß°¡µÊ
 				Sleep(100);
 				return 100000;
 			}
@@ -240,11 +240,11 @@ PLAYMODE get_menu_playmode() {
 	gotoxy(0, 3);
 	printf("					 ____          _\n					| ___ \\       | |\n					| |_/ /  ___  | | __  ___  _ __\n					|  __/  / _ \\ | |/ / / _ \\|  __|\n					| |    | (_) ||   < |  __/| |\n					|_|     \\___/ |_|\\_\\ \\___||_|");
 	gotoxy(x - 2, y);
-	printf("> ï¿½Ì±ï¿½ï¿½Ã·ï¿½ï¿½ï¿½");
+	printf("> ½Ì±ÛÇÃ·¹ÀÌ");
 	gotoxy(x, y + 2);
-	printf("ï¿½ï¿½Æ¼ï¿½Ã·ï¿½ï¿½ï¿½");
+	printf("¸ÖÆ¼ÇÃ·¹ÀÌ");
 	gotoxy(x, y + 4);
-	printf("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+	printf("°ÔÀÓ Á¾·á");
 
 	while (1) {
 
@@ -260,7 +260,7 @@ PLAYMODE get_menu_playmode() {
 					gotoxy(x - 2, y - 2);
 					y = y - 2;
 					printf(">");
-					Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+					Beep(G, 100);		//Ãß°¡µÊ
 					Sleep(100);
 				}
 				break;
@@ -272,7 +272,7 @@ PLAYMODE get_menu_playmode() {
 					gotoxy(x - 2, y + 2);
 					y = y + 2;
 					printf(">");
-					Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+					Beep(G, 100);		//Ãß°¡µÊ
 					Sleep(100);
 				}
 				break;
@@ -285,19 +285,19 @@ PLAYMODE get_menu_playmode() {
 			system("cls");
 			if (y == 13) {
 				select = SINGLE;
-				Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+				Beep(G, 100);		//Ãß°¡µÊ
 				Sleep(100);
 				return SINGLE;
 			}
 			else if (y == 15) {
 				select = ONLINE;
-				Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+				Beep(G, 100);		//Ãß°¡µÊ
 				Sleep(100);
 				return ONLINE;
 			}
 			else if (y == 17) {
 				select = EXIT;
-				Beep(G, 100);		//ï¿½ß°ï¿½ï¿½ï¿½
+				Beep(G, 100);		//Ãß°¡µÊ
 				Sleep(100);
 				return EXIT;
 			}
@@ -380,7 +380,7 @@ BET get_menu_bet(int* amount)
 	gotoxy(x - 2, y);
 	printf("> ");
 	for (int i = 0; i < 5; i++) {
-		gotoxy(x, y + 2*i);
+		gotoxy(x, y + 2 * i);
 		printf("%s", bet[i]);
 	}
 	while (1) {
@@ -443,19 +443,19 @@ BET get_menu_bet(int* amount)
 				do {
 					if (check == 0) {
 						gotoxy(60, 26);
-						printf("ï¿½Ù½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö½Ê½Ã¿ï¿½.");
+						printf("´Ù½Ã ÀÔ·ÂÇØÁÖ½Ê½Ã¿À.");
 					}
 					check = 1;
 					gotoxy(68, 25);
 					printf("                            ");
 					gotoxy(60, 25);
-					printf("ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¾ï¿½ : ");
+					printf("º£ÆÃ ±Ý¾× : ");
 					scanf("%s", bet_input);
 					for (int i = 0; bet_input[i] != '\0'; i++)
 					{
 						if (isdigit(bet_input[i])) {
 							check += 0;
-							
+
 						}
 						else {
 							check = 0;
@@ -549,7 +549,7 @@ void set_card(CARD_SHAPE shape, int num, int player, int card_order) {
 				}
 				else if (CARD[i][j] == 'N')
 				{
-					if(num == 11) {
+					if (num == 11) {
 						ColorSet(white, black);
 						printf("J");
 					}
@@ -572,21 +572,21 @@ void set_card(CARD_SHAPE shape, int num, int player, int card_order) {
 					switch (shape) {
 					case DIAMOND:
 						ColorSet(white, red);
-						printf("ï¿½ï¿½");
+						printf("¡ß");
 						break;
 					case SPADE:
 						ColorSet(white, black);
-						printf("ï¿½ï¿½");
+						printf("¢¼");
 						break;
 					case HEART:
 						ColorSet(white, red);
-						printf("ï¿½ï¿½");
+						printf("¢¾");
 						break;
 					case CLUB:
 						ColorSet(white, black);
-						printf("ï¿½ï¿½");
+						printf("¢À");
 						break;
-					}					
+					}
 				}
 			}
 			gotoxy(x + 5, y);
@@ -671,14 +671,14 @@ void set_player_name(int player, const char* name) {
 int countDigits(long long num) {
 	int count = 0;
 
-	// 0ï¿½ï¿½ ï¿½Ô·Âµï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// 0ÀÌ ÀÔ·ÂµÈ °æ¿ì¿¡µµ ÃÖ¼Ò ÇÑ ÀÚ¸®·Î °£ÁÖ
 	if (num == 0) {
 		return 1;
 	}
 
 	while (num != 0) {
-		num /= 10; // ï¿½ï¿½ï¿½Ú¸ï¿½ 10ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-		++count;   // ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		num /= 10; // ¼ýÀÚ¸¦ 10À¸·Î ³ª´©¾î ÇÑ ÀÚ¸®¾¿ ÁÙÀÓ
+		++count;   // ÀÚ¸®¼ö Áõ°¡
 	}
 
 	return count;
@@ -706,7 +706,7 @@ void set_player_capital(int player, int capital) {
 		gotoxy(3, 22);
 		break;
 	case 1:
-		gotoxy(20-len, 2);
+		gotoxy(20 - len, 2);
 		break;
 	case 2:
 		gotoxy(20 - len, 12);
@@ -722,12 +722,12 @@ void set_player_capital(int player, int capital) {
 	}
 
 	if (hundred_million != 0) {
-		printf("%dï¿½ï¿½", hundred_million);
+		printf("%d¾ï", hundred_million);
 	}
 	if (ten_thousand != 0) {
-		printf("%dï¿½ï¿½", ten_thousand);
+		printf("%d¸¸", ten_thousand);
 	}
-	printf("%dï¿½ï¿½", ten_thousand_else);
+	printf("%d¿ø", ten_thousand_else);
 }
 void set_player_hand(int player, HAND hand) {
 	switch (player) {

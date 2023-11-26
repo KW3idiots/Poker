@@ -1,3 +1,5 @@
+#pragma once
+
 typedef enum {
 	SINGLE,
 	ONLINE,
@@ -17,6 +19,6 @@ void cursor();
 PLAYMODE get_menu_playmode();
 int get_menu_capital();
 void set_table();
-BET get_menu_bet();
+BET get_menu_bet(int* amount);
 void set_card(CARD_SHAPE shape, int num, int player, int card_order);
 void set_money(int player_num, int player_money);
