@@ -380,7 +380,7 @@ BET get_menu_bet(int* amount)
 	gotoxy(x - 2, y);
 	printf("> ");
 	for (int i = 0; i < 5; i++) {
-		gotoxy(x, y + 2*i);
+		gotoxy(x, y + 2 * i);
 		printf("%s", bet[i]);
 	}
 	while (1) {
@@ -455,7 +455,6 @@ BET get_menu_bet(int* amount)
 					{
 						if (isdigit(bet_input[i])) {
 							check += 0;
-							
 						}
 						else {
 							check = 0;
@@ -549,7 +548,7 @@ void set_card(CARD_SHAPE shape, int num, int player, int card_order) {
 				}
 				else if (CARD[i][j] == 'N')
 				{
-					if(num == 11) {
+					if (num == 11) {
 						ColorSet(white, black);
 						printf("J");
 					}
@@ -586,7 +585,7 @@ void set_card(CARD_SHAPE shape, int num, int player, int card_order) {
 						ColorSet(white, black);
 						printf("��");
 						break;
-					}					
+					}
 				}
 			}
 			gotoxy(x + 5, y);
@@ -706,10 +705,10 @@ void set_player_capital(int player, int capital) {
 		gotoxy(3, 22);
 		break;
 	case 1:
-		gotoxy(20-len, 2);
+		gotoxy(17 - len, 2);
 		break;
 	case 2:
-		gotoxy(20 - len, 12);
+		gotoxy(17 - len, 12);
 		break;
 	case 3:
 		gotoxy(96, 2);
@@ -727,7 +726,7 @@ void set_player_capital(int player, int capital) {
 	if (ten_thousand != 0) {
 		printf("%d��", ten_thousand);
 	}
-	printf("%d��", ten_thousand_else);
+	printf("%6d��", ten_thousand_else);
 }
 void set_player_hand(int player, HAND hand) {
 	switch (player) {
@@ -735,13 +734,13 @@ void set_player_hand(int player, HAND hand) {
 		gotoxy(4, 29);
 		break;
 	case 1:
-		gotoxy(4, 6);
+		gotoxy(4,9);
 		break;
 	case 2:
 		gotoxy(4, 19);
 		break;
 	case 3:
-		gotoxy(97, 6);
+		gotoxy(97, 9);
 		break;
 	case 4:
 		gotoxy(97, 19);

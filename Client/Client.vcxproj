@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="graphic.c" />
+    <ClCompile Include="tset.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphic.h" />
