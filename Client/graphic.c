@@ -64,7 +64,7 @@ void Money_Square() {
 	ColorSet(black, white);
 }
 int get_menu_capital() {
-	int x = 10;
+	int x = 15;
 	gotoxy(45, 2);
 	printf("초기 자본을 선택하세요.");
 	gotoxy(7, 6);
@@ -176,10 +176,10 @@ int get_menu_capital() {
 			key = getch();
 			switch (key) {
 			case 75:
-				if (x > 10) {
+				if (x > 15) {
 					gotoxy(x, 24);
 					printf("          ");
-					x = x - 40;
+					x = x - 35;
 					gotoxy(x, 24);
 					printf("> 게임 시작");
 					Beep(G, 100);		//추가됨
@@ -188,10 +188,10 @@ int get_menu_capital() {
 				break;
 
 			case 77:
-				if (x < 90) {
+				if (x < 85) {
 					gotoxy(x, 24);
 					printf("          ");
-					x = x + 40;
+					x = x + 35;
 					gotoxy(x, 24);
 					printf("> 게임 시작");
 					Beep(G, 100);		//추가됨
@@ -205,7 +205,7 @@ int get_menu_capital() {
 			break;
 		case 13:
 			system("cls");
-			if (x == 10) {
+			if (x == 15) {
 				Beep(G, 100);		//추가됨
 				Sleep(100);
 				return 1000;
@@ -215,7 +215,7 @@ int get_menu_capital() {
 				Sleep(100);
 				return 10000;
 			}
-			else if (x == 90) {
+			else if (x == 85) {
 				Beep(G, 100);		//추가됨
 				Sleep(100);
 				return 100000;
@@ -561,6 +561,10 @@ void set_card(CARD_SHAPE shape, int num, int player, int card_order) {
 						ColorSet(white, black);
 						printf("K");
 					}
+					else if (num == 1) {
+						ColorSet(white, black);
+						printf("A");
+					}
 					else {
 						ColorSet(white, black);
 						printf("%d", num);
@@ -684,6 +688,7 @@ int countDigits(long long num) {
 	return count;
 }
 void set_player_capital(int player, int capital) {
+
 	int len = 0;
 	int hundred_million = capital / 100000000;
 	int hundred_million_else = capital % 100000000;
@@ -704,20 +709,32 @@ void set_player_capital(int player, int capital) {
 	switch (player) {
 	case 0:
 		gotoxy(3, 22);
+		printf("        ");
+		gotoxy(3, 22);
 		break;
 	case 1:
-		gotoxy(20 - len, 2);
+		gotoxy(12, 2);
+		printf("        ");
+		gotoxy(21 - len, 2);
 		break;
 	case 2:
-		gotoxy(20 - len, 12);
+		gotoxy(12, 12);
+		printf("        ");
+		gotoxy(21 - len, 12);
 		break;
 	case 3:
+		gotoxy(96, 2);
+		printf("        ");
 		gotoxy(96, 2);
 		break;
 	case 4:
 		gotoxy(96, 12);
+		printf("        ");
+		gotoxy(96, 12);
 		break;
 	case 5:
+		gotoxy(46, 6);
+		printf("             ");
 		gotoxy(46, 6);
 	}
 
@@ -727,7 +744,9 @@ void set_player_capital(int player, int capital) {
 	if (ten_thousand != 0) {
 		printf("%d만", ten_thousand);
 	}
-	printf("%d원", ten_thousand_else);
+	if (ten_thousand_else != 0) {
+		printf("%d원", ten_thousand_else);
+	}
 }
 void set_player_hand(int player, HAND hand) {
 	switch (player) {
@@ -735,13 +754,13 @@ void set_player_hand(int player, HAND hand) {
 		gotoxy(4, 29);
 		break;
 	case 1:
-		gotoxy(4, 6);
+		gotoxy(4, 9);
 		break;
 	case 2:
 		gotoxy(4, 19);
 		break;
 	case 3:
-		gotoxy(97, 6);
+		gotoxy(97, 9);
 		break;
 	case 4:
 		gotoxy(97, 19);

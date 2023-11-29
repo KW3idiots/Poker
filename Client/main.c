@@ -9,6 +9,7 @@
 
 int main()
 {
+
     while (1)
     {
         switch (get_menu_playmode())
