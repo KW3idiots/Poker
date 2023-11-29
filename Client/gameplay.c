@@ -7,13 +7,12 @@
 #include <time.h>
 #include <conio.h>
 #include <process.h>
-
 #include "graphic.h"
-#include "gameplay.h"
 
 int randomcard();
 int randomshape();
 int checkcard(int deck1, int deck2, int deck3, int deck4, int deck5, int player1, int player2);
+void play_single(int get_menu_capital);
 
 int randomcard()
 {
@@ -692,13 +691,16 @@ void play_single(int get_menu_capital)
 			}
 			for (int i = 0; i < 5; i++)
 			{
-				if (winner[i] == 1 && fold[i] == 0)
+				if (gameover[i] == 0)
 				{
-					player[i][2] += ingamemoney / same;
-				}
-				if (allin[i] == 1 && winner[i] == 0)
-				{
-					gameover[i] = 1;
+					if (winner[i] == 1 && fold[i] == 0)
+					{
+						player[i][2] += ingamemoney / same;
+					}
+					if (allin[i] == 1 && winner[i] == 0)
+					{
+						gameover[i] = 1;
+					}
 				}
 			}
 			break;
