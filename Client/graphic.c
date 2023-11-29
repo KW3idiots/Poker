@@ -312,7 +312,7 @@ PLAYMODE get_menu_playmode() {
 	}
 }
 void set_table() {
-	system("mode con: cols=122 lines=34");
+	system("mode con:cols=122 lines=34");
 	gotoxy(0, 0);
 	char table[33][121] =
 	{
@@ -793,7 +793,7 @@ void set_player_hand(int player, HAND hand) {
 	}
 }
 
-
+/*
 int main() {
 	cursor();
 	get_menu_playmode();
@@ -824,4 +824,8 @@ int main() {
 	int amount = 0;	//레이즈 한 값이 들어가는 변수(테스트용)
 	get_menu_bet(&amount);
 	Sleep(100);
+}
+*/
+int main() {
+	system("mode con:cols=10 lines=10");
 }
