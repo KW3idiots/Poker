@@ -7,611 +7,970 @@
 #include <time.h>
 #include <conio.h>
 #include <process.h>
+#include "graphic.h"
 
-int randcard()
+int randomcard();
+int randomshape();
+int checkcard(int deck1, int deck2, int deck3, int deck4, int deck5, int player1, int player2);
+void play_single(int get_menu_capital);
+
+int randomcard()
 {
-    srand(time(NULL));
+	int card;
 
-    int card;
+	card = rand() % 13;
 
-    card = rand() % 52;
-
-    return card;
-}
-int check(int a, int b, int c, int d, int e, int card1, int card2)
-{
-    //0 = 클로버, 1 = 하트, 2 = 다야, 3 = 스페이드
-    //0 = a . . . . . .10 = j 11 = q 12 = k
-    int cardnum[7] = { a,b,c,d,e,card1,card2 };
-    int shape[7] = { a,b,c,d,e,card1,card2 };
-    int fair = 0;
-    int straight1 = 0;
-    int flush = 0;
-    int straight[7];
-    int shapecheck[4];
-    int result;
-    int max = -1;
-    int check;
-    int triple = 0;
-    int four = 0;
-
-
-    for (int i = 0; i < 7; i++)
-    {
-        cardnum[i] = cardnum[i] % 13;
-    }
-    for (int i = 0; i < 7; i++)
-    {
-        shape[i] = shape[i] / 13;
-    }
-    //페어
-    for (int i = 0; i < 7; i++)
-    {
-        for (int j = i + 1; j < 7; j++)
-        {
-            if (cardnum[i] == cardnum[j])
-            {
-                fair++;
-            }
-        }
-        if (shape[i] == 0)
-        {
-            shapecheck[0]++;
-        }
-        if (shape[i] == 1)
-        {
-            shapecheck[1]++;
-        }
-        if (shape[i] == 2)
-        {
-            shapecheck[2]++;
-        }
-        if (shape[i] == 3)
-        {
-            shapecheck[3]++;
-        }
-    }
-    for (int i = 0; i < 4; i++)
-    {
-        if (shapecheck[i] >= 5)
-        {
-            flush++;
-        }
-    }
-    for (int i = 0; i < 7; i++)
-    {
-        for (int j = 0; j < 7; j++)
-        {
-            if (cardnum[j] >= max)
-            {
-                max = cardnum[j];
-                check = j;
-            }
-        }
-        straight[i] = max;
-        cardnum[check] = -1;
-    }
-    for (int i = 0; i < 6; i++)
-    {
-        if (straight[i + 1] == straight[i] - 1)
-        {
-            straight1++;
-        }
-    }
-    for (int i = 0; i < 5; i++)
-    {
-        if (straight[i] == straight[i + 1] && straight[i + 1] == straight[i + 2])
-        {
-            triple++;
-        }
-    }
-    for (int i = 0; i < 4; i++)
-    {
-        if (straight[i] == straight[i + 1] && straight[i + 1] == straight[i + 2] && straight[i + 2] == straight[i + 3])
-        {
-            four++;
-        }
-    }
-    if (fair == 1)//원페어
-    {
-        result = 1;
-    }
-    else if (fair == 2 || fair == 3)//투페어
-    {
-        result = 2;
-    }
-    else if (fair == 3 && triple == 1)//쓰리오브카드
-    {
-        result = 3;
-    }
-    else if (straight1 >= 5)//스트레이트
-    {
-        result = 4;
-    }
-    else if (flush == 1)//플러쉬
-    {
-        result = 5;
-    }
-    else if (fair >= 4)//풀하
-    {
-        result = 6;
-    }
-    else if (fair >= 4 && four == 1)//포카드
-    {
-        result = 7;
-    }
-    else if (royal(a, b, c, d, e, card1, card2) == 10)//로얄 플러쉬
-    {
-        result = 9;
-    }
-    else if (royal(a, b, c, d, e, card1, card2) == 9)//스트레이트 플러쉬
-    {
-        result = 8;
-    }
-    else//하이카드
-    {
-        result = 0;
-    }
-    return result;
-}
-int royal(int a, int b, int c, int d, int e, int card1, int card2)
-{
-    int max = -1;
-    int royal[7];
-    int num[7] = { a,b,c,d,e,card1,card2 };
-    int check;
-    int royal1 = 0;
-    int royal2 = 0;
-
-    for (int i = 0; i, 7; i++)
-    {
-        for (int j = 0; j < 7; j++)
-        {
-            if (num[j] >= max)
-            {
-                max = num[j];
-                check = j;
-            }
-        }
-        royal[i] = max;
-        num[check] = -1;
-    }
-    for (int i = 0; i < 6; i++)
-    {
-        if (royal[i] == royal[i + 1] - 1)
-        {
-            royal1++;
-        }
-    }
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            if (royal[i] == 9 + 13 * j && royal[i + 1] == 10 + 13 * j && royal[i + 2] == 11 + 13 * j && royal[i + 3] == 12 + 13 * j)
-            {
-                for (int k = 0; k < 7; k++)
-                {
-                    royal[k] == 13 * j;
-                    royal2++;
-                }
-            }
-        }
-    }
-    if (royal2 != 0)
-    {
-        return 10;
-    }
-    if (royal1 != 0)
-    {
-        return 9;
-    }
-
-}
-int samecheck(int a, int b)
-{
-    if (a == b)
-    {
-        return 1;
-    }
+	return card;
 }
 
-void main()//'♣','♥','♦','♠'
+int randomshape()
 {
-    srand(time(NULL));
-    char shape[4];//카드 모양(클로버 하트 다야 스페이드)
-    shape[0] = 'C';
-    shape[1] = 'H';
-    shape[2] = 'D';
-    shape[3] = 'S';
-    int cardcheck[52] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,446,47,48,49,50,51 };
-    int ai[4][3];//봇 카드 및 돈 ai[0],ai[1]이 카드고 ai[2]는 돈
-    int startmoney[3] = { 1000,10000,100000 };//시작 돈
-    int money;//내 돈
-    int call, fold[5] = { 0,0,0,0,0 }, raise, allin[5] = { 0,0,0,0,0 }, pay[5];
-    int choose = 4;
-    int yourcard[2];
-    int allmoney = 0;//배팅된 돈
-    int end = 0;
-    int deckcard[5];
-    int startchoose;
-    int player = 5;
-    int result[5];
-    int pasan[5] = { 0,0,0,0,0 };
+	int shape;
 
-    while (choose != 0)
-    {
-        printf("시작 돈(1 : 1000원, 2 : 10000원, 3 : 100000원) :");
-        scanf("%d", &choose);
+	shape = rand() % 4;
 
-        if (choose == 1)
-        {
-            printf("1000원 모드를 선택하셨습니다.\n");
-            money = 1000;
-            call = money / 100;
-            for (int i = 0; i < 4; i++)
-            {
-                ai[i][2] = 1000;
-            }
-            startchoose = choose-1;
-            choose = 0;
-        }
-        else if (choose == 2)
-        {
-            printf("10000원 모드를 선택하셨습니다.\n");
-            money = 10000;
-            choose = 0;
-            call = money / 100;
-            for (int i = 0; i < 4; i++)
-            {
-                ai[i][2] = 10000;
-            }
-            startchoose = choose - 1;
-            choose = 0;
-        }
-        else if (choose == 3)
-        {
-            printf("100000원 모드를 선택하셨습니다.\n");
-            money = 100000;
-            choose = 0;
-            call = money / 100;
-            for (int i = 0; i < 4; i++)
-            {
-                ai[i][2] = 100000;
-            }
-            startchoose = choose - 1;
-            choose = 0;
-        }
-        else
-        {
-            printf("잘못 입력하셨습니다 다시 입력하십시오.\n");
-        }
-    }
-    while (end == 0)
-    {   
-        for (int i = 0; i < 5; i++)
-        {
-            allin[i] = 0;
-        }
-        allmoney = 0;
-        fold[0] = 0;
-        int cardcheck[52] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,446,47,48,49,50,51 };
-        yourcard[0] = randcard();
-        cardcheck[yourcard[0]] = 0;
-        yourcard[1] = randcard();
-        while (cardcheck[yourcard[1]] == 0)//내 카드 정하기
-        {
-            yourcard[1] = randcard();
-        }
-        for (int i = 0; i < 2; i++)
-        {
-            cardcheck[yourcard[i]] = 0;
-        }
-       
-        for (int i = 0; i < 4; i++)
-        {
-            if (pasan[i] == 1)
-            {
-                break;
-            }
-            for (int j = 0; j < 2; j++)
-            {
-                ai[i][j] = randcard();
-            }
-            while (cardcheck[ai[i][0]] == 0)
-            {
-                ai[i][0] = randcard();
-            }
-            cardcheck[ai[i][0]] = 0;
-            ai[i][1] = randcard();
-            while (cardcheck[ai[i][1]] == 0)
-            {
-                ai[i][1] = randcard();
-            }
-            cardcheck[ai[i][1]] = 0;
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            deckcard[i] = randcard();
-            while (cardcheck[deckcard[i]] == 0)
-            {
-                deckcard[i] = randcard();
-            }
-            cardcheck[deckcard[i]] = 0;
-        }
-        system("cls");
-        int play = 0;
-        int open = 0;
-        while (play == 0)
-        {
-            if (open == 0)//1라
-            {
-                printf("공개된 카드 : ? / ? / ? / ? / ?\n");
-            }
-            if (open == 1)//2라
-            {
-                printf("공개된 카드 : %c %d / %c %d / %c %d / ? / ?\n", shape[deckcard[0] / 13], deckcard[0] % 13, shape[deckcard[1] / 13], deckcard[1] % 13, shape[deckcard[2] / 13], deckcard[2] % 13);
-            }
-            if (open == 2)//3라
-            {
-                printf("공개된 카드 : %c %d / %c %d / %c %d / %c %d / ?\n", shape[deckcard[0] / 13], deckcard[0] % 13, shape[deckcard[1] / 13], deckcard[1] % 13, shape[deckcard[2] / 13], deckcard[2] % 13, shape[deckcard[3] / 13], deckcard[3] % 13);
-            }
-            if (open == 3)//막라
-            {
-                printf("공개된 카드 : %c %d / %c %d / %c %d / %c %d / %c %d\n", shape[deckcard[0] / 13], deckcard[0] % 13, shape[deckcard[1] / 13], deckcard[1] % 13, shape[deckcard[2] / 13], deckcard[2] % 13, shape[deckcard[3] / 13], deckcard[3] % 13, shape[deckcard[4] / 13], deckcard[4] % 13);
-            }
-            if (open == 4)//담판가기
-            {
-                int max = -1;
-                int same = 0;
-                int winner = 0;
-                int gamewin = 0;
-                int mincheck;
+	return shape;
+}
 
-                for (int i = 0; i < 4; i++)
-                {
-                    if (pasan[i + 1] == 1)
-                    {
-                        printf("ai %d님은 파산상태입니다.", i + 1);
-                        break;
-                    }
-                    printf("ai %d의 카드 : ", i + 1);
-                    for (int j = 0; j<2; j++)
-                    {
-                        printf("%c%d ", shape[ai[i][j] / 13], ai[i][j] % 13);
-                    }
-                    printf("\n");
-                }
-                result[0] = check(deckcard[0], deckcard[1], deckcard[2], deckcard[3], deckcard[4], yourcard[0], yourcard[1]);
-                for (int i = 1; i < 5; i++)
-                {
-                    result[i] = check(deckcard[0], deckcard[1], deckcard[2], deckcard[3], deckcard[4], ai[i-1][0], ai[i-1][1]);
-                    }
-                for (int i = 0; i < 5; i++)
-                {
-                    if (result[i] >= max)
-                    {
-                        max = result[i];
-                    }
-                }
-                winner = max;
-                for (int i = 0; i < 5; i++)
-                {
-                    if (result[i] == winner)
-                    {
-                        same++;
-                    }
-                }
-                if (result[0] == winner&& fold[0] == 0)
-                {
-                    money += allmoney / same;
-                }
-                if (result[0] != winner && allin[0] == 1)
-                {
-                    Sleep(5000);
-                    play++;
-                    end+=2;
-                    break;
-                }
-                for (int i = 1; i < 5; i++)
-                {
-                    if (result[i] == winner&&fold[i] == 0)
-                    {
-                        ai[i-1][2] += allmoney / same;
-                    }
-                    if (result[i] != winner && allin[i] == 1)
-                    {
-                        pasan[i] == 1;
-                    }
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    if (pasan[i + 1] == 1)
-                    {
-                        gamewin++;
-                    }
-                }
-                open = 0;
-                play++;
-                if (gamewin == 4)
-                {
-                    play++;
-                    end++;
-                    break;
-                }
-                break;
-            }
-            printf("당신의 돈 : %d\n", money);
-            for (int i = 0 ;i < 4; i++)
-            {
-                printf("ai %d의 돈 : %d\n",i+1, ai[i][2]);
-            }
-            printf("당신의 카드 : %c %d / %c %d\n", shape[yourcard[0]/13], yourcard[0] % 13, shape[yourcard[1] / 13], yourcard[1] % 13);//우선 0이 나오면 그게 K인걸로
-            if (fold[0] != 1 && allin[0] == 0)
-            {
-                printf("1. 콜, 2. 레이즈, 3. 폴드, 4. 올인 : ");
-                scanf("%d", &choose);
-            }
-            call = startmoney[startchoose] / 100;
-            if (choose == 1)
-            {
-                if (allin[0] != 1 || fold[0] != 1)
-                {
-                    if (money >= call)
-                    {
-                        money -= call;
-                        allmoney += call;
-                    }
-                    else if (money < call)
-                    {
-                        allmoney += money;
-                        money = 0;
-                        printf("당신은 올인하셨습니다.\n");
-                        allin[0] = 1;
-                    }
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    if (ai[i][2] < call)
-                    {
-                        if (fold[i + 1] == 1 || allin[i + 1] == 1)
-                        {
-                            break;
-                        }
-                        allmoney += ai[i][2];
-                        ai[i][2] = 0;
-                        allin[i + 1];
-                    }
-                    if (ai[i][2] >= call)
-                    {
-                        allmoney += call;
-                        ai[i][2] -= call;
-                    }
-                }
-                printf("베팅된 돈 : %d\n", allmoney);
-                printf("\n");
-                open++;
-            }
-            else if (choose == 2)
-            {
-                if (allin[0] != 1 || fold[0] != 1)
-                {
-                    printf("얼마나 레이즈 하실 겁니까? : ");
-                    scanf("%d", &raise);
-                    while (raise >= money)
-                    {
-                        printf("당신이 가진 돈보다 많습니다 다시 입력해주십시오 : ");
-                        scanf("%d", &raise);
-                    }
-                    call = raise;
-                    money -= call;
-                    allmoney += call;
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    if (ai[i][2] == 0)
-                    {
-                        break;
-                    }
-                    if (ai[i][2] <= call)
-                    {
-                        allmoney += ai[i][2];
-                        ai[i][2] = 0;
-                        printf("ai %d님이 올인을 하셨습니다.\n", i + 1);
-                        allin[i + 1] = 1;
-                    }
-                    if (ai[i][2] > call)
-                    {
-                        allmoney += call;
-                        ai[i][2] -= call;
-                    }
-                }
-                printf("배팅된 돈 : %d\n\n", allmoney);
-                open++;
-            }
-            else if (choose == 3)
-            {
-                if (fold[0] == 0)
-                {
-                    fold[0]++;
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    if (ai[i][2] < call)
-                    {
-                        if (fold[i + 1] == 1 || allin[i + 1] == 1)
-                        {
-                            break;
-                        }
-                        allmoney += ai[i][2];
-                        ai[i][2] = 0;
-                        allin[i + 1];
-                    }
-                }
-                printf("베팅된 돈 : %d\n", allmoney);
-                printf("\n");
-                open++;
-            }
-            else if (choose == 4)
-            {
-                allin[0] = 1;
-                allmoney += money;
-                call = money;
-                money = 0;
-                for (int i = 0; i < 4; i++)
-                {
-                    if (ai[i][2] > call)
-                    {
-                        ai[i][2] -= call;
-                        allmoney += call;
-                    }
-                    else if(ai[i][2] <= call)
-                    {
-                        allmoney += ai[i][2];
-                        ai[i][2] = 0;
-                        allin[i + 1] = 1;
-                    }
-                }
-                printf("베팅된 돈 : %d\n", allmoney);
-                printf("\n");
-                open++;
-            }
-            else
-            {
-                printf("잘못 입력하셨습니다 다시 입력해주십시오, : ");
-                scanf("%d", &choose);
-                printf("\n");
-            }
-        }
+void play_single(int get_menu_capital)
+{
+	srand(time(NULL));
+	int start_money = get_menu_capital;
+	int player[5][3];//카드 1, 카드 2, 돈
+	//player 1은 플레이어 나머지 2,3,4,5는 ai
+	int deck[5];//가운데 5개 카드
+	int playerchoose;//플레이어 돈 배팅 선택
+	int call = get_menu_capital / 100;
+	int raise;
+	int ingamemoney = 0;//판돈
+	int gameover[5] = { 0,0,0,0,0 };
+	int max = -1;
+	int deckpower[5];
+	int same = 0;
+	int raisemoney = 0;
+	char name[5][20] = { "Player","AI 1","AI 2","AI 3","AI 4" };
 
-        /*
-        for (int i = 0; i < 2; i++)
-        {
-            printf("%d ", yourcard[i]);
-        }
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 2; j++)
-            {
-                printf("%d ", ai[i][j]);
-            }
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            printf("%d ", deckcard[i]);
-        }
-        end++;
-        */
-    }
-    if (end == 1)
-    {
-        system("cls");
-        printf("당신은 게임을 승리하셨습니다.");
-    }
-    if (end == 2)
-    {
-        system("cls");
-        printf("당신은 파산하였습니다.");
-    }
+	for (int i = 0; i < 5; i++)//플레이어 초반 돈
+	{
+		player[i][2] = get_menu_capital;
+	}
+	while (1)//게임 끝(ㄹㅇ 게임) 
+	{
+		int card[4][13] = { {0,1,2,3,4,5,6,7,8,9,10,11,12},{13,14,15,16,17,18,19,20,21,22,23,24,25},{26,27,28,29,30,31,32,33,34,35,36,37,38},{39,40,41,42,43,44,45,46,47,48,49,50,51} };
+		int win = 0;
+		set_table();
+		for (int i = 0; i < 5; i++)
+		{
+			if (gameover[i] == 0)
+			{
+				set_player_name(i, name[i]);
+			}
+		}
+		int turn = 0;
+		call = get_menu_capital / 100;
+		same = 0;
+		int winner[5] = { 0,0,0,0,0 };
+		int fold[5] = { 0,0,0,0,0 };
+		int allin[5] = { 0,0,0,0,0 };
+		ingamemoney = 0;
+		max = -1;
+		while (1)//한 라운드 끝(카드 공개하는거에서 한 라운드)
+		{
+			while (1)//한 턴 끝(콜 레이즈 등 하는데 한바퀴)
+			{
+				call = get_menu_capital / 100;
+				gotoxy(46, 6);
+				printf("                   ");
+				set_player_capital(5, ingamemoney);//판돈
+				for (int i = 0; i < 5; i++)
+				{
+					if (gameover[i] == 0)
+					{
+						set_player_capital(i, player[i][2]);
+					}
+				}
+				if (turn == 0)
+				{
+					for (int i = 0; i < 5; i++)
+					{
+						for (int j = 0; j < 2; j++)
+						{
+							if (gameover[i] == 0)
+							{
+								int chooseshape = randomshape();
+								int choosecard = randomcard();
+								player[i][j] = card[chooseshape][choosecard];
+								while (card[chooseshape][choosecard] == -1)
+								{
+									chooseshape = randomshape();
+									choosecard = randomcard();
+									player[i][j] = card[chooseshape][choosecard];
+								}
+
+								card[chooseshape][choosecard] = -1;
+							}
+
+						}
+					}
+					for (int i = 0; i < 5; i++)
+					{
+						int chooseshape = randomshape();
+						int choosecard = randomcard();
+						deck[i] = card[chooseshape][choosecard];
+						while(card[chooseshape][choosecard] == -1)
+						{
+							chooseshape = randomshape();
+							choosecard = randomcard();
+							deck[i] = card[chooseshape][choosecard];
+						}
+						card[chooseshape][choosecard] = -1;
+					}
+					set_card(player[0][0] / 13, player[0][0] % 13 + 1, 0, 0);
+					set_card(player[0][1] / 13, player[0][1] % 13 + 1, 0, 1);
+					for (int i = 1; i < 5; i++)//ai 카드 세팅
+					{
+						for (int j = 0; j < 2; j++)
+						{
+							if (gameover[i] == 0)
+							{
+								set_card(4, player[i][j] % 13+1, i, j);
+							}
+						}
+					}
+					for (int i = 0; i < 5; i++)//덱 카드
+					{
+						set_card(4, deck[i] % 13+1, 5, i);
+					}
+					playerchoose = get_menu_bet(&raisemoney);
+					if (playerchoose == 0 && allin[0] == 0 && fold[0] == 0)//플레이어가 콜했을 때(우선 ai들도 다 똑같이 행동)(구현 안됬기 때문)(폴드일 경우엔 진행을 위해 콜만 가능)
+					{
+						for (int i = 0; i < 5; i++)
+						{
+							if (gameover[i] == 0)
+							{
+								if (player[i][2] <= call && player[i][2] >= 0 && fold[i] == 0)//콜할 돈이 없는데 돈은 있을때 자동 올인
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+								else if (player[i][2] > call && fold[i] == 0)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+								else if (player[i][2] <= 0)
+								{
+									gameover[i] = 1;
+								}
+							}
+						}
+					}
+					else if (playerchoose == 1 && allin[0] == 0 && fold[0] == 0)
+					{
+						if (player[0][2] >= raisemoney)
+						{
+							call = raisemoney;
+							for (int i = 0; i < 5; i++)
+							{
+								if (gameover[i] == 0)
+								{
+									if (fold[i] == 1 || allin[i] == 1)
+									{
+										continue;
+									}
+									if (player[i][2] > call)
+									{
+										ingamemoney += call;
+										player[i][2] -= call;
+										continue;
+									}
+									else if (player[i][2] <= call && allin[i] == 0)
+									{
+										ingamemoney += player[i][2];
+										player[i][2] = 0;
+										allin[i] = 1;
+										continue;
+									}
+								}
+							}
+						}
+					}
+					else if (playerchoose == 2 && fold[0] == 0 && allin[0] == 0)//플레이어가 폴드했을때
+					{
+						fold[0] = 1;
+						set_card(4, player[0][0] % 13+1, 0, 0);
+						set_card(4, player[0][1] % 13+1, 0, 1);
+						for (int i = 0; i < 5; i++)//여기에 플레이어는 폴드 했기 때문에 ai들의 혈투를 넣어야하는데 지금은 ai들끼리 콜만 하는 걸로 통일
+						{
+							if (gameover[i] == 0)
+							{
+								if (player[i][2] <= call && player[i][2] >= 0 && fold[i] == 0)
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+								else if (player[i][2] > call && fold[i] == 0)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+							}
+						}
+					}
+					else if (playerchoose == 3 && allin[0] == 0 && fold[0] == 0)//플레이어가 올인 했을때(ai들은 아직 플레이어만 따라하는 ㄹㅇ 응애임)
+					{
+						allin[0] = 1;
+						call = player[0][2];
+						ingamemoney += player[0][2];
+						player[0][2] = 0;
+						for (int i = 1; i < 5; i++)
+						{
+							if (gameover[i] == 0)
+							{
+								if (player[i][2] > call)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+								if (player[i][2] <= call && allin[i] == 0)
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+							}
+						}
+					}
+					else
+					{
+						turn++;
+						continue;
+					}
+					turn++;
+					continue;
+				}
+				if (turn == 1)
+				{
+					for (int i = 0; i < 3; i++)//덱 카드
+					{
+						set_card(deck[i] / 13, deck[i] % 13 + 1, 5, i);
+					}
+					for (int i = 3; i < 5; i++)//덱 카드
+					{
+						set_card(4, deck[i] % 13 + 1, 5, i);
+					}
+					playerchoose = get_menu_bet(&raisemoney);
+					if ((fold[0] == 1 || allin[0] == 1) && (fold[1] == 1 || allin[1] == 1) && (fold[2] == 1 || allin[2] == 1) && (fold[3] == 1 || allin[3] == 1) && (fold[4] == 1 || allin[4] == 1))
+					{
+						turn++;
+						continue;
+					}
+					else if (playerchoose == 0 && allin[0] == 0 && fold[0] == 0)//플레이어가 콜했을 때(우선 ai들도 다 똑같이 행동)(구현 안됬기 때문)(폴드일 경우엔 진행을 위해 콜만 가능)
+					{
+						for (int i = 0; i < 5; i++)
+						{
+							if (gameover[i] == 0)
+							{
+								if (allin[i] == 1)
+								{
+									break;
+								}
+								if (player[i][2] <= call && player[i][2] >= 0 && fold[i] == 0)//콜할 돈이 없는데 돈은 있을때 자동 올인
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+								else if (player[i][2] > call && fold[i] == 0)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+							}
+						}
+					}
+					else  if (playerchoose == 1 && allin[0] == 0 && fold[0] == 0)
+					{
+						if (player[0][2] >= raisemoney)
+						{
+							call = raisemoney;
+							for (int i = 0; i < 5; i++)
+							{
+								if (gameover[i] == 0)
+								{
+									if (fold[i] == 1 || allin[i] == 1)
+									{
+										continue;
+									}
+									if (player[i][2] > call)
+									{
+										ingamemoney += call;
+										player[i][2] -= call;
+										continue;
+									}
+									else if (player[i][2] <= call && allin[i] == 0)
+									{
+										ingamemoney += player[i][2];
+										player[i][2] = 0;
+										allin[i] = 1;
+										continue;
+									}
+								}
+							}
+						}
+					}
+					else if (playerchoose == 2 && fold[0] == 0 && allin[0] == 0)//플레이어가 폴드했을때
+					{
+						fold[0] = 1;
+						set_card(4, player[0][0] % 13 + 1, 0, 0);
+						set_card(4, player[0][1] % 13 + 1, 0, 1);
+						for (int i = 0; i < 5; i++)//여기에 플레이어는 폴드 했기 때문에 ai들의 혈투를 넣어야하는데 지금은 ai들끼리 콜만 하는 걸로 통일
+						{
+							if (gameover[i] == 0)
+							{
+								if (allin[i] == 1)
+								{
+									continue;
+								}
+								if (player[i][2] <= call && player[i][2] >= 0 && fold[i] == 0)
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+								else if (player[i][2] > call && fold[i] == 0)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+							}
+						}
+					}
+					else if (playerchoose == 3 && allin[0] == 0 && fold[0] == 0)//플레이어가 올인 했을때(ai들은 아직 플레이어만 따라하는 ㄹㅇ 응애임)
+					{
+						allin[0] = 1;
+						call = player[0][2];
+						ingamemoney += player[0][2];
+						player[0][2] = 0;
+						for (int i = 1; i < 5; i++)
+						{
+							if (gameover[i] == 0)
+							{
+								if (allin[i] == 1)
+								{
+									continue;
+								}
+								if (player[i][2] > call)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+								if (player[i][2] <= call && allin[i] == 0)
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+							}
+						}
+					}
+					else
+					{
+						turn++;
+						continue;
+					}
+					turn++;
+					continue;
+				}
+				if (turn == 2)
+				{
+					for (int i = 0; i < 4; i++)//덱 카드
+					{
+						set_card(deck[i] / 13, deck[i] % 13+1, 5, i);
+					}
+					for (int i = 4; i < 5; i++)//덱 카드
+					{
+						set_card(4, deck[i] % 13+1, 5, i);
+					}
+					playerchoose = get_menu_bet(&raisemoney);
+					if ((fold[0] == 1 || allin[0] == 1) && (fold[1] == 1 || allin[1] == 1) && (fold[2] == 1 || allin[2] == 1) && (fold[3] == 1 || allin[3] == 1) && (fold[4] == 1 || allin[4] == 1))
+					{
+						turn++;
+						continue;
+					}
+					else if (playerchoose == 0 && allin[0] == 0 && fold[0] == 0)//플레이어가 콜했을 때(우선 ai들도 다 똑같이 행동)(구현 안됬기 때문)(폴드일 경우엔 진행을 위해 콜만 가능)
+					{
+						for (int i = 0; i < 5; i++)
+						{
+							if (gameover[i] == 0)
+							{
+								if (allin[i] == 1)
+								{
+									continue;
+								}
+								if (player[i][2] <= call && player[i][2] >= 0 && fold[i] == 0)//콜할 돈이 없는데 돈은 있을때 자동 올인
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+								else if (player[i][2] > call && fold[i] == 0)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+							}
+						}
+					}
+					else if (playerchoose == 1 && allin[0] == 0 && fold[0] == 0)
+					{
+						if (player[0][2] >= raisemoney)
+						{
+							call = raisemoney;
+							for (int i = 0; i < 5; i++)
+							{
+								if (gameover[i] == 0)
+								{
+									if (fold[i] == 1 || allin[i] == 1)
+									{
+										continue;
+									}
+									if (player[i][2] > call)
+									{
+										ingamemoney += call;
+										player[i][2] -= call;
+										continue;
+									}
+									else if (player[i][2] <= call && allin[i] == 0)
+									{
+										ingamemoney += player[i][2];
+										player[i][2] = 0;
+										allin[i] = 1;
+										continue;
+									}
+								}
+							}
+						}
+					}
+					else if (playerchoose == 2 && fold[0] == 0 && allin[0] == 0)//플레이어가 폴드했을때
+					{
+						fold[0] = 1;
+						set_card(4, player[0][0] % 13 + 1, 0, 0);
+						set_card(4, player[0][1] % 13 + 1, 0, 1);
+						for (int i = 0; i < 5; i++)//여기에 플레이어는 폴드 했기 때문에 ai들의 혈투를 넣어야하는데 지금은 ai들끼리 콜만 하는 걸로 통일
+						{
+							if (gameover[i] == 0)
+							{
+								if (allin[i] == 1)
+								{
+									continue;
+								}
+								if (player[i][2] <= call && player[i][2] >= 0 && fold[i] == 0)
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+								else if (player[i][2] > call && fold[i] == 0)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+							}
+						}
+					}
+					else if (playerchoose == 3 && allin[0] == 0 && fold[0] == 0)//플레이어가 올인 했을때(ai들은 아직 플레이어만 따라하는 ㄹㅇ 응애임)
+					{
+						allin[0] = 1;
+						call = player[0][2];
+						ingamemoney += player[0][2];
+						player[0][2] = 0;
+						for (int i = 1; i < 5; i++)
+						{
+							if (gameover[i] == 0)
+							{
+								if (player[i][2] > call)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+								if (player[i][2] <= call && allin[i] == 0)
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+							}
+						}
+					}
+					else
+					{
+						turn++;
+						continue;
+					}
+					turn++;
+					continue;
+				}
+				if (turn == 3)
+				{
+					for (int i = 0; i < 5; i++)//덱 카드
+					{
+						set_card(deck[i] / 13, deck[i] % 13+1, 5, i);
+					}
+					playerchoose = get_menu_bet(&raisemoney);
+					if ((fold[0] == 1 || allin[0] == 1) && (fold[1] == 1 || allin[1] == 1) && (fold[2] == 1 || allin[2] == 1) && (fold[3] == 1 || allin[3] == 1) && (fold[4] == 1 || allin[4] == 1))
+					{
+						turn++;
+						continue;
+					}
+					else if (playerchoose == 0 && fold[0] == 0 && allin[0] == 0)//플레이어가 콜했을 때(우선 ai들도 다 똑같이 행동)(구현 안됬기 때문)(폴드일 경우엔 진행을 위해 콜만 가능)
+					{
+						for (int i = 0; i < 5; i++)
+						{
+							if (gameover[i] == 0)
+							{
+								if (allin[i] == 1)
+								{
+									continue;
+								}
+								if (player[i][2] <= call && player[i][2] >= 0 && fold[i] == 0)//콜할 돈이 없는데 돈은 있을때 자동 올인
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+								else if (player[i][2] > call && fold[i] == 0)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+							}
+						}
+					}
+					else if (playerchoose == 1 && fold[0] == 0 && allin[0] == 0)
+					{
+						if (player[0][2] >= raisemoney)
+						{
+							call = raisemoney;
+							for (int i = 0; i < 5; i++)
+							{
+								if (gameover[i] == 0)
+								{
+									if (fold[i] == 1 || allin[i] == 1)
+									{
+										continue;
+									}
+									if (player[i][2] > call)
+									{
+										ingamemoney += call;
+										player[i][2] -= call;
+										continue;
+									}
+									else if (player[i][2] <= call && allin[i] == 0)
+									{
+										ingamemoney += player[i][2];
+										player[i][2] = 0;
+										allin[i] = 1;
+										continue;
+									}
+								}
+							}
+						}
+					}
+					else if (playerchoose == 2 && fold[0] == 0 && allin[0] == 0)//플레이어가 폴드했을때
+					{
+						fold[0] = 1;
+						set_card(4, player[0][0] % 13 + 1, 0, 0);
+						set_card(4, player[0][1] % 13 + 1, 0, 1);
+						for (int i = 0; i < 5; i++)//여기에 플레이어는 폴드 했기 때문에 ai들의 혈투를 넣어야하는데 지금은 ai들끼리 콜만 하는 걸로 통일
+						{
+							if (gameover[i] == 0)
+							{
+								if (allin[i] == 1)
+								{
+									continue;
+								}
+								if (player[i][2] <= call && player[i][2] >= 0 && fold[i] == 0)
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+								else if (player[i][2] > call && fold[i] == 0)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+							}
+						}
+					}
+					else if (playerchoose == 3 && allin[0] == 0 && fold[0] == 0)//플레이어가 올인 했을때(ai들은 아직 플레이어만 따라하는 ㄹㅇ 응애임)
+					{
+						allin[0] = 1;
+						call = player[0][2];
+						ingamemoney += player[0][2];
+						player[0][2] = 0;
+						for (int i = 1; i < 5; i++)
+						{
+							if (gameover[i] == 0)
+							{
+								if (player[i][2] > call)
+								{
+									player[i][2] -= call;
+									ingamemoney += call;
+								}
+								if (player[i][2] <= call && allin[i] == 0)
+								{
+									ingamemoney += player[i][2];
+									player[i][2] = 0;
+									allin[i] = 1;
+								}
+							}
+						}
+					}
+					else
+					{
+						turn++;
+						continue;
+					}
+					turn++;
+					continue;
+				}
+				if (turn == 4)
+				{
+					for (int i = 1; i < 5; i++)//ai 카드 세팅
+					{
+						for (int j = 0; j < 2; j++)
+						{
+							if (gameover[i] == 0)
+							{
+								set_card(player[i][j]/13, player[i][j] % 13+1, i, j);							
+							}
+						}
+					}
+					break;
+				}
+			}
+			for (int i = 0; i < 5; i++)
+			{
+				if (gameover[i] == 0)
+				{
+					deckpower[i] = checkcard(deck[0], deck[1], deck[2], deck[3], deck[4], player[i][0], player[i][1]);
+					if (deckpower[i] >= max && fold[i] == 0)
+					{
+						max = deckpower[i];
+					}
+				}
+				if (gameover[i] == 1)
+				{
+					deckpower[i] == -2;
+				}
+			}
+			for (int i = 0; i < 5; i++)
+			{
+				if (gameover[i] == 0)
+				{
+					set_player_hand(i, deckpower[i] + 1);
+					Sleep(2000);
+				}
+			}
+			Sleep(1000);
+			for (int i = 0; i < 5; i++)
+			{
+				if (deckpower[i] == max)
+				{
+					winner[i] = 1;
+					same++;
+					if (fold[i] == 1)
+					{
+						same--;
+					}
+				}
+			}
+			for (int i = 0; i < 5; i++)
+			{
+				if (gameover[i] == 0)
+				{
+					if (winner[i] == 1 && fold[i] == 0)
+					{
+						player[i][2] += ingamemoney / same;
+					}
+					if (allin[i] == 1 && winner[i] == 0)
+					{
+						gameover[i] = 1;
+					}
+				}
+			}
+			break;
+		}
+		if (gameover[0] == 1)
+		{
+			break;
+		}
+		for (int i = 0; i < 5; i++)
+		{
+			if (gameover[i] == 1)
+			{
+				win++;
+			}
+		}
+		if (win == 4)
+		{
+			break;
+		}
+	}
+	system("cls");
+}
+//0 1 2 3 다야 스페이드 하트 클로버
+//0 1 2 3 4 5 6 7 8 9 10 11 12 카드 숫자들
+int checkcard(int deck1, int deck2, int deck3, int deck4, int deck5, int player1, int player2)
+{
+	int checkcard[7] = { deck1,deck2,deck3,deck4,deck5,player1,player2 };
+	int fair[13] = { 0,0,0,0,0,0,0,0,0,0,0,0,0 };
+	int faircheck = 0;
+	int triple = 0;
+	int four = 0;
+	int straight[7] = { deck1,deck2,deck3,deck4,deck5,player1,player2 };
+	int flush = 0;
+	int shape[4] = { 0,0,0,0 };
+	int straightcheck = 0;
+	int straightflush = 0;
+	int royal = 0;
+	int straightzogun[13][5] = { {0,1,2,3,4},{1,2,3,4,5},{2,3,4,5,6},{3,4,5,6,7},{4,5,6,7,8},{5,6,7,8,9},{6,7,8,9,10},{7,8,9,10,11},{8,9,10,11,12},{9,10,11,12,0},{10,11,12,0,1},{11,12,0,1,2},{12,0,1,2,3} };
+	int straightflushzogun[13][5] = { {0,1,2,3,4},{1,2,3,4,5},{2,3,4,5,6},{3,4,5,6,7},{4,5,6,7,8},{5,6,7,8,9},{6,7,8,9,10},{7,8,9,10,11},{8,9,10,11,12},{9,10,11,12,0},{10,11,12,0,1},{11,12,0,1,2},{12,0,1,2,3} };
+	int correct = 0;
+	int colorcheck= 0;
+
+	for (int i = 0; i < 7; i++)//페어 체크
+	{
+		fair[checkcard[i] % 13] ++;
+	}
+	for (int i = 0; i < 13; i++)//원페어인지 투페어인지 트리플인지 포카드인지 체크
+	{
+		if (fair[i] == 2)
+		{
+			faircheck++;
+		}
+		if (fair[i] == 3)
+		{
+			triple++;
+		}
+		if (fair[i] >= 4)
+		{
+			four++;
+		}
+	}
+	for (int i = 0; i < 13; i++)
+	{
+		correct = 0;
+		for (int j = 0; j < 5; j++)
+		{
+			if (straight[0]%13 == straightzogun[i][j])
+			{
+				correct++;
+				straightzogun[i][j] = -1;
+			}
+			if (straight[1]%13 == straightzogun[i][j])
+			{
+				correct++;
+				straightzogun[i][j] = -1;
+			}
+			if (straight[2]%13 == straightzogun[i][j])
+			{
+				correct++;
+				straightzogun[i][j] = -1;
+			}
+			if (straight[3]%13 == straightzogun[i][j])
+			{
+				correct++;
+				straightzogun[i][j] = -1;
+			}
+			if (straight[4]%13 == straightzogun[i][j])
+			{
+				correct++;
+				straightzogun[i][j] = -1;
+			}
+			if (straight[5]%13 == straightzogun[i][j])
+			{
+				correct++;
+				straightzogun[i][j] = -1;
+			}
+			if (straight[6] % 13 == straightzogun[i][j])
+			{
+				correct++;
+				straightzogun[i][j] = -1;
+			}
+		}
+		if (correct == 5)
+		{
+			straightcheck++;
+		}
+	}
+	for (int i = 0; i < 7; i++)//플러쉬 확인
+	{
+		shape[checkcard[i] / 13] ++;
+	}
+	for (int i = 0; i < 4; i++)//플러쉬 확인
+	{
+		if (shape[i] >= 5)
+		{
+			flush++;
+			colorcheck = i;
+		}
+	}
+	for (int i = 0; i < 13; i++)
+	{
+		correct = 0;
+		for (int j = 0; j < 5; j++)
+		{
+			if (straight[0] % 13 == straightflushzogun[i][j] && straight[0]/13 == colorcheck)
+			{
+				correct++;
+				straightflushzogun[i][j]=-1;
+			}
+			if (straight[1] % 13 == straightflushzogun[i][j] && straight[1] / 13 == colorcheck)
+			{
+				correct++;
+				straightflushzogun[i][j] = -1;
+			}
+			if (straight[2] % 13 == straightflushzogun[i][j] && straight[2] / 13 == colorcheck)
+			{
+				correct++;
+				straightflushzogun[i][j] = -1;
+			}
+			if (straight[3] % 13 == straightflushzogun[i][j] && straight[3] / 13 == colorcheck)
+			{
+				correct++;
+				straightflushzogun[i][j] = -1;
+			}
+			if (straight[4] % 13 == straightflushzogun[i][j] && straight[4] / 13 == colorcheck)
+			{
+				correct++;
+				straightflushzogun[i][j] = -1;
+			}
+			if (straight[5] % 13 == straightflushzogun[i][j] && straight[5] / 13 == colorcheck)
+			{
+				correct++;
+				straightflushzogun[i][j] = -1;
+			}
+			if (straight[6] % 13 == straightflushzogun[i][j] && straight[6] / 13 == colorcheck)
+			{
+				correct++;
+				straightflushzogun[i][j] = -1;
+			}
+		}
+		if (correct == 5)
+		{
+			straightflush++;
+		}
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		int royalstraightflush[5] = { 0,9,10,11,12 };
+		correct = 0;
+		for (int j = 0; j < 5; j++)
+		{
+			if (straight[0] % 13 ==royalstraightflush[j] && straight[0] / 13 == colorcheck)
+			{
+				correct++;
+				royalstraightflush[i] = -1;
+			}
+			if (straight[1] % 13 == royalstraightflush[j] && straight[1] / 13 == colorcheck)
+			{
+				correct++;
+				royalstraightflush[i] = -1;
+			}
+			if (straight[2] % 13 == royalstraightflush[j] && straight[2] / 13 == colorcheck)
+			{
+				correct++;
+				royalstraightflush[i] = -1;
+			}
+			if (straight[3] % 13 == royalstraightflush[j] && straight[3] / 13 == colorcheck)
+			{
+				correct++;
+				royalstraightflush[i] = -1;
+			}
+			if (straight[4] % 13 == royalstraightflush[j] && straight[4] / 13 == colorcheck)
+			{
+				correct++;
+				royalstraightflush[i] = -1;
+			}
+			if (straight[5] % 13 == royalstraightflush[j] && straight[5] / 13 == colorcheck)
+			{
+				correct++;
+				royalstraightflush[i] = -1;
+			}
+			if (straight[6] % 13 == royalstraightflush[j] && straight[6] / 13 == colorcheck)
+			{
+				correct++;
+				royalstraightflush[i] = -1;
+			}
+		}
+		if (correct == 5)
+		{
+			royal++;
+		}
+	}
+	if (royal >= 1)
+	{
+		return 9;
+	}
+	if (straightcheck >= 1)
+	{
+		if (royal >= 1)
+		{
+			return 9;
+		}
+		else if (straightflush >= 1)
+		{
+			return 8;
+		}
+		else if (flush == 1)
+		{
+			return 5;
+		}
+		else
+		{
+			return 4;
+		}
+	}
+	else if (triple == 1)
+	{
+		if (faircheck >= 1)
+		{
+			return 6;
+		}
+		if (flush == 1)
+		{
+			return 5;
+		}
+		else
+		{
+			return 3;
+		}
+	}
+	else if (four == 1)
+	{
+		return 7;
+	}
+	else if (flush == 1)
+	{
+		return 5;
+	}
+	else if (faircheck == 1)
+	{
+		return 1;
+	}
+	else if (faircheck >= 2)
+	{
+		return 2;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
